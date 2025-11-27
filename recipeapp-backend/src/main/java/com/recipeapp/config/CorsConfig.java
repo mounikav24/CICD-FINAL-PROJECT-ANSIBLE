@@ -13,17 +13,27 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
+
                 registry.addMapping("/**")
                         .allowedOrigins(
+                                // Local development
                                 "http://localhost:5173",
                                 "http://127.0.0.1:5173",
                                 "http://localhost",
                                 "http://127.0.0.1",
-                                //docker
+
+                                // Vite / local frontend
+                                "http://localhost:30019",
+                                "http://127.0.0.1:30019",
+
+                                // Kubernetes NodePort frontend
+                                "http://192.168.1.10:30019",
+
+                                // Docker internal
                                 "http://react",
                                 "http://react:80"
                         )
-                        .allowedMethods("*")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
             }
